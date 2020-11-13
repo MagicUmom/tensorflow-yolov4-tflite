@@ -78,12 +78,12 @@ def main(_argv):
             image = Image.fromarray(image.astype(np.uint8))
             image.show()
             image = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
-            cv2.imwrite( img.split(".")[0] + "_" + FLAGS.output, image)
+            cv2.imwrite("./output/" + img.split(".")[0] + "_" + FLAGS.output, image)
             print(img,exist_classes)
             out_list.append([img, exist_classes])
     
     df = pd.DataFrame(out_list ,columns=["Name","classes"])
-    df.to_csv("./output_list.csv", index=False)
+    df.to_csv("./output/output_list.csv", index=False)
 
 if __name__ == '__main__':
     try:
