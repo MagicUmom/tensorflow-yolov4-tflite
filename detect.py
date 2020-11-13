@@ -77,8 +77,8 @@ def main(_argv):
         iou_threshold=FLAGS.iou,
         score_threshold=FLAGS.score
     )
-    pred_bbox,_ = [boxes.numpy(), scores.numpy(), classes.numpy(), valid_detections.numpy()]
-    image = utils.draw_bbox(original_image, pred_bbox)
+    pred_bbox = [boxes.numpy(), scores.numpy(), classes.numpy(), valid_detections.numpy()]
+    image,_ = utils.draw_bbox(original_image, pred_bbox)
     # image = utils.draw_bbox(image_data*255, pred_bbox)
     image = Image.fromarray(image.astype(np.uint8))
     image.show()
