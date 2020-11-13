@@ -135,6 +135,8 @@ def draw_bbox(image, bboxes, classes=read_class_names(cfg.YOLO.CLASSES), show_la
     random.shuffle(colors)
     random.seed(None)
 
+    have_classes = []
+
     out_boxes, out_scores, out_classes, num_boxes = bboxes
     for i in range(num_boxes[0]):
         if int(out_classes[0][i]) < 0 or int(out_classes[0][i]) > num_classes: continue
@@ -154,13 +156,14 @@ def draw_bbox(image, bboxes, classes=read_class_names(cfg.YOLO.CLASSES), show_la
 
         if show_label:
             bbox_mess = '%s: %.2f' % (classes[class_ind], score)
+            have_classes.append(classes[class_ind])
             t_size = cv2.getTextSize(bbox_mess, 0, fontScale, thickness=bbox_thick // 2)[0]
             c3 = (c1[0] + t_size[0], c1[1] - t_size[1] - 3)
             cv2.rectangle(image, c1, (np.float32(c3[0]), np.float32(c3[1])), bbox_color, -1) #filled
 
             cv2.putText(image, bbox_mess, (c1[0], np.float32(c1[1] - 2)), cv2.FONT_HERSHEY_SIMPLEX,
                         fontScale, (0, 0, 0), bbox_thick // 2, lineType=cv2.LINE_AA)
-    return image
+    return image, have_classes
 
 def bbox_iou(bboxes1, bboxes2):
     """
