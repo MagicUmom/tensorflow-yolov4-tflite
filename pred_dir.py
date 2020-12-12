@@ -25,9 +25,9 @@ flags.DEFINE_string('model', 'yolov4', 'yolov3 or yolov4')
 flags.DEFINE_string('image', './pred_data', 'path to input image')
 flags.DEFINE_string('output', 'result.png', 'path to output image')
 flags.DEFINE_float('iou', 0.45, 'iou threshold')
-flags.DEFINE_float('score', 0.25, 'score threshold')
+# flags.DEFINE_float('score', 0.25, 'score threshold')
 
-def main(_argv):
+def pred_dir(score=0.25):
     config = ConfigProto()
     config.gpu_options.allow_growth = True
     session = InteractiveSession(config=config)
@@ -70,7 +70,7 @@ def main(_argv):
                 max_output_size_per_class=50,
                 max_total_size=50,
                 iou_threshold=FLAGS.iou,
-                score_threshold=FLAGS.score
+                score_threshold=score
             )
             pred_bbox = [boxes.numpy(), scores.numpy(), classes.numpy(), valid_detections.numpy()]
             image, exist_classes = utils.draw_bbox(original_image, pred_bbox)
@@ -81,12 +81,3 @@ def main(_argv):
             cv2.imwrite("./pred_result/" + img, image)
             print(img,exist_classes)
             out_list.append([img, exist_classes])
-    
-    # df = pd.DataFrame(out_list ,columns=["Name","classes"])
-    # df.to_csv("./output/output_list.csv", index=False)
-
-if __name__ == '__main__':
-    try:
-        app.run(main)
-    except SystemExit:
-        pass
