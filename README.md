@@ -21,7 +21,7 @@ gdown --id 1cewMfusmPjYWbrnuJRuKhPMwRe_b9PaT -O ./data/
 python save_model.py --weights ./data/yolov4.weights --output ./checkpoints/yolov4-416 --input_size 416 --model yolov4
 
 # 使用預測
-python detect.py --weights ./checkpoints/yolov4-416 --size 416 --model yolov4 --image ./data/kite.jpg
+python detect.py --weights ./checkpoints/yolov4-416 --size 416 --model yolov4 --image=./pred_data --output=./pred_result
 
 ```
 
