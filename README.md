@@ -16,7 +16,7 @@ Download yolov4.weights file: https://drive.google.com/open?id=1cewMfusmPjYWbrnu
 
 # Quick Start
 
-## 使用自己在 Darknet 上訓練的權重
+## 使用官方的權重
 ```bash
 # 下載 yolov4.weights 權重
 # 使用 gdown 下載，如果沒有此套件請使用 pip install gdown
@@ -31,7 +31,7 @@ python detect.py --weights=./checkpoints/yolov4-416 --image=./pred_data --output
 ```
 
 
-## 使用官方的權重
+## 使用自己在 Darknet 上訓練的權重 
 ```bash
 # 將原先的 obj.names 複製到 data/classes/ 底下，如果使用課堂上的步驟，應該會在 yolov4_train/cfg/obj.names
 # ** -----記得要自己改路徑!! ----- *
