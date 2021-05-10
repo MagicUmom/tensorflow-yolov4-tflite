@@ -24,6 +24,7 @@ flags.DEFINE_string('image', './pred_data', 'path to input image dir')
 flags.DEFINE_string('output', './pred_result', 'path to output image dir')
 flags.DEFINE_float('iou', 0.45, 'iou threshold')
 flags.DEFINE_float('score', 0.25, 'score threshold')
+flags.DEFINE_string('classes', "./data/classes/coco.names" , 'classes defined path. eg: coco.names')
 
 
 def main(_argv):
@@ -76,7 +77,7 @@ def main(_argv):
                 score_threshold=FLAGS.score
             )
             pred_bbox = [boxes.numpy(), scores.numpy(), classes.numpy(), valid_detections.numpy()]
-            image, exist_classes = utils.draw_bbox(original_image, pred_bbox)
+            image, exist_classes = utils.draw_bbox(original_image, pred_bbox, FLAGS.classes)
             # image = utils.draw_bbox(image_data*255, pred_bbox)
             image = Image.fromarray(image.astype(np.uint8))
             # image.show()

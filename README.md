@@ -1,5 +1,9 @@
-# Fork From [tensorflow-yolov4-tflite](https://github.com/hunglc007/tensorflow-yolov4-tflite) 2021/05/10
+# Fork From [tensorflow-yolov4-tflite](https://github.com/hunglc007/tensorflow-yolov4-tflite) @2021/05/10
 - For AIF 內部學員使用
+
+### Prerequisites
+* Tensorflow 2.3.0rc0
+* OpenCV 4
 
 # tensorflow-yolov4-tflite
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
@@ -12,23 +16,42 @@ Download yolov4.weights file: https://drive.google.com/open?id=1cewMfusmPjYWbrnu
 
 # Quick Start
 
+## 使用自己在 Darknet 上訓練的權重
 ```bash
 # 下載 yolov4.weights 權重
 # 使用 gdown 下載，如果沒有此套件請使用 pip install gdown
 gdown --id 1cewMfusmPjYWbrnuJRuKhPMwRe_b9PaT -O ./data/
 
 # 將 darknet權重 轉換成 tf2的權重
-python save_model.py --weights ./data/yolov4.weights --output ./checkpoints/yolov4-416 --input_size 416 --model yolov4
+python save_model.py --weights=./data/yolov4.weights --output=./checkpoints/yolov4-416 --input_size=416 --model yolov4
 
 # 使用預測
-python detect.py --weights ./checkpoints/yolov4-416 --size 416 --model yolov4 --image=./pred_data --output=./pred_result
+python detect.py --weights=./checkpoints/yolov4-416 --image=./pred_data --output=./pred_result
 
 ```
 
-### Prerequisites
-* Tensorflow 2.3.0rc0
-* OpenCV 4
 
+## 使用官方的權重
+```bash
+# 將原先的 obj.names 複製到 data/classes/ 底下，如果使用課堂上的步驟，應該會在 yolov4_train/cfg/obj.names
+# ** -----記得要自己改路徑!! ----- *
+cp ../yolov4_train/cfg/obj.names ./data/classes/
+# ** -----記得要自己改路徑!! ----- *
+
+
+# 將原先訓練好的 Darknet權重檔 複製過來這個資料夾下
+# ** -----記得要自己改路徑!! ----- *
+cp ../yolov4_train/weights_after_train/yolov4-custom_last.weights ./
+# ** -----記得要自己改路徑!! ----- *
+
+
+# 將自己訓練的 darknet權重 轉換成 tf2的權重
+python save_model.py --weights=./yolov4-custom_last.weights --output=./checkpoints/yolov4-custom_last --classes=./data/classes/obj.names --input_size=416 --model=yolov4
+
+# 使用預測
+python detect.py --weights=./checkpoints/yolov4-416 --classes=./data/classes/obj.names --image=./pred_data --output=./pred_result
+
+```
 
 
 

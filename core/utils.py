@@ -91,7 +91,7 @@ def load_config(FLAGS):
         elif FLAGS.model == 'yolov3':
             ANCHORS = get_anchors(cfg.YOLO.ANCHORS_V3, FLAGS.tiny)
         XYSCALE = cfg.YOLO.XYSCALE if FLAGS.model == 'yolov4' else [1, 1, 1]
-    NUM_CLASS = len(read_class_names(cfg.YOLO.CLASSES))
+    NUM_CLASS = len(read_class_names(FLAGS.classes))
 
     return STRIDES, ANCHORS, NUM_CLASS, XYSCALE
 
@@ -124,7 +124,8 @@ def image_preprocess(image, target_size, gt_boxes=None):
         gt_boxes[:, [1, 3]] = gt_boxes[:, [1, 3]] * scale + dh
         return image_paded, gt_boxes
 
-def draw_bbox(image, bboxes, classes=read_class_names(cfg.YOLO.CLASSES), show_label=True):
+def draw_bbox(image, bboxes, classes_path, show_label=True):
+    classes = read_class_names(classes_path)
     num_classes = len(classes)
     image_h, image_w, _ = image.shape
     hsv_tuples = [(1.0 * x / num_classes, 1., 1.) for x in range(num_classes)]
