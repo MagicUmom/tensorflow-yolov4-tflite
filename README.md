@@ -48,14 +48,19 @@ cp ../yolov4_train/weights_after_train/yolov4-custom_last.weights ./
 # 將自己訓練的 darknet權重 轉換成 tf2的權重
 python save_model.py --weights=./yolov4-custom_last.weights --output=./checkpoints/yolov4-custom_last --classes=./data/classes/obj.names --input_size=416 --model=yolov4
 
-# 使用預測
+# 使用預測，需要預測的圖片放進去 pred_data，結果會出現在 pred_result
 python detect.py --weights=./checkpoints/yolov4-416 --classes=./data/classes/obj.names --image=./pred_data --output=./pred_result
 
 ```
 
+# 注意事項
 
+  * 注意要使用自己的訓練的權重就要把 *權重* 及 *obj.names* 都當參數餵進去模型轉換的參數
+  * 預測的圖片請放到 pred_data，結果會出現在 pred_result
+  * 預測的圖片在程式碼內吃資料夾下附檔名為 .jpg 及 .png (小寫)，如果需要修改，請自行到 detect.py 下修改
+  * 要得到預測框可以到 detect.py 及 core/utils內的 draw_bbox 內找尋需要的地方做修改
 
-### References
+# References
 
   * YOLOv4: Optimal Speed and Accuracy of Object Detection [YOLOv4](https://arxiv.org/abs/2004.10934).
   * [darknet](https://github.com/AlexeyAB/darknet)
