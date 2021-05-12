@@ -37,8 +37,9 @@ def main(_argv):
     image_dir_path = FLAGS.image
 
     print("loading Model ...")
-    saved_model_loaded = tf.saved_model.load(FLAGS.weights, tags=[tag_constants.SERVING])
-    infer = saved_model_loaded.signatures['serving_default']
+    # saved_model_loaded = tf.saved_model.load(FLAGS.weights, tags=[tag_constants.SERVING])
+    # infer = saved_model_loaded.signatures['serving_default']
+    infer = tf.keras.models.load_model(FLAGS.weights)
 
     imgs = os.listdir(image_dir_path)
     # out_list = []
@@ -62,10 +63,17 @@ def main(_argv):
             images_data = np.asarray(images_data).astype(np.float32)
 
             batch_data = tf.constant(images_data)
-            pred_bbox = infer(batch_data)
-            for key, value in pred_bbox.items():
-                boxes = value[:, :, 0:4]
-                pred_conf = value[:, :, 4:]
+            # pred_bbox = infer(batch_data)
+            pred_bbox = infer.predict(batch_data)
+            # print(type(pred_bbox))
+            # print(pred_bbox.shape)
+            # print(pred_bbox)
+            # for key, value in pred_bbox.items():
+                # boxes = value[:, :, 0:4]
+                # pred_conf = value[:, :, 4:]
+
+            boxes = pred_bbox[:,:,0:4]
+            pred_conf = pred_bbox[:,:,4:]
 
             boxes, scores, classes, valid_detections = tf.image.combined_non_max_suppression(
                 boxes=tf.reshape(boxes, (tf.shape(boxes)[0], -1, 1, 4)),

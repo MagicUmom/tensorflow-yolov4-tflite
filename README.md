@@ -49,7 +49,7 @@ cp ../yolov4_train/weights_after_train/yolov4-custom_last.weights ./
 python save_model.py --weights=./yolov4-custom_last.weights --output=./checkpoints/yolov4-custom_last --classes=./data/classes/obj.names --input_size=416 --model=yolov4
 
 # 使用預測，需要預測的圖片放進去 pred_data，結果會出現在 pred_result
-python detect.py --weights=./checkpoints/yolov4-416 --classes=./data/classes/obj.names --image=./pred_data --output=./pred_result
+python detect.py --weights=./checkpoints/yolov4-custom_last --classes=./data/classes/obj.names --image=./pred_data --output=./pred_result
 
 ```
 
